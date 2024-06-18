@@ -74,8 +74,8 @@ jobs:
     - name: Check manifest
       if: runner.os != 'Windows'  # setup.py does not support sdist on Windows
       run: check-manifest
-    - name: Install pytest-ranking
-      run: pip install pytest-ranking
+    - name: Install pytest-ranking related
+      run: pip install pytest-ranking pytest-json-report
     - name: Restore pytest-ranking cache
       id: restore-pytest-ranking-cache
       if: always()
@@ -87,7 +87,7 @@ jobs:
       env:
         COLUMNS: 120
       run: |
-        pytest -v -r x --durations=0 --color=yes -raXxs ${{ startsWith(matrix.python-version, 'pypy') && ' ' || '--cov --cov-report=xml' }} --json-report --json-report-file=./report-${{ matrix.python-version }}-${{runner.os}}.json
+        pytest -v -r x --durations=0 --color=yes -raXxs ${{ startsWith(matrix.python-version, 'pypy') && ' ' || '--cov --cov-report=xml' }} --json-report --json-report-file=./test-report.json
     - name: Save pytest-ranking cache
       id: save-pytest-ranking-cache
       if: always()
@@ -99,7 +99,7 @@ jobs:
       with:
           name: upload pytest timing reports as json
           path: |
-            ./report-*.json
+            ./test-report.json
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
