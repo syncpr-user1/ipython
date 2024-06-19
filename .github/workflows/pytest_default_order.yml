@@ -97,7 +97,7 @@ jobs:
         key: pytest-ranking-cache-${{ github.workflow }}-${{ runner.os }}-${{ matrix.python }}-${{ github.run_id }}
     - uses: actions/upload-artifact@v3
       with:
-          name: upload test report json
+          name: pytest-ranking upload test report json
           path: |
             ./test-report.json
     - name: Upload coverage to Codecov
