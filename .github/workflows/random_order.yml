@@ -87,7 +87,7 @@ jobs:
       env:
         COLUMNS: 120
       run: |
-        pytest -v -r x --durations=0 --color=yes -raXxs ${{ startsWith(matrix.python-version, 'pypy') && ' ' || '--cov --cov-report=xml' }} --json-report --json-report-file=./test-report.json --rank --rank-weight=0-0-0 --rank-level=file
+        pytest -v -r x --durations=0 --color=yes -raXxs ${{ startsWith(matrix.python-version, 'pypy') && ' ' || '--cov --cov-report=xml' }} --json-report --json-report-file=./test-report.json --rank --rank-weight=0-0-0
     - name: Save pytest-ranking cache
       id: save-pytest-ranking-cache
       if: always()
@@ -95,11 +95,10 @@ jobs:
       with:
         path: ${{ github.workspace }}/.pytest_cache/v/pytest_ranking_data
         key: pytest-ranking-cache-${{ github.workflow }}-${{ runner.os }}-${{ matrix.python }}-${{ github.run_id }}
-    - name: pytest-ranking upload test report json
-      id: pytest-ranking-upload-test-report-json
-      uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v3
       if: always()
       with:
+          name: pytest-ranking upload test report json
           path: |
             ./test-report.json
     - name: Upload coverage to Codecov
