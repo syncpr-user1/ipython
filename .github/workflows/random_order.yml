@@ -74,8 +74,8 @@ jobs:
     - name: Check manifest
       if: runner.os != 'Windows'  # setup.py does not support sdist on Windows
       run: check-manifest
-    - name: Install pytest-ranking
-      run: pip install pytest-ranking
+    - name: Install pytest-ranking related
+      run: pip install pytest-ranking pytest-json-report
     - name: Restore pytest-ranking cache
       id: restore-pytest-ranking-cache
       if: always()
